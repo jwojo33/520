@@ -1,0 +1,23 @@
+import numpy as np
+
+# Boundary conditions are flux @ x(-0.5) = 0
+# Boundary conditions are flux @ x(0.5) = 0
+
+import rx_data as rx
+import eig_stub as eb
+import math
+
+sigma_a = eb.calculate_constants()['siga']
+sigma_f = eb.calculate_constants()['sigf']
+D = eb.calculate_constants()['d']
+nu = eb.calculate_constants()['nu']
+
+A = np.array([[math.exp(-1 * math.sqrt((sigma_a + sigma_f * nu) / D) * -0.5), 
+               math.exp(math.sqrt((sigma_a + sigma_f * nu) / D) * -0.5)], 
+              [math.exp(-1 * math.sqrt((sigma_a + sigma_f * nu) / D) * 0.5), 
+               math.exp(math.sqrt((sigma_a + sigma_f * nu) / D) * 0.5)]])
+b = np.array([0, 0])
+
+solution = np.linalg.solve(A, b)
+
+print(solution)
